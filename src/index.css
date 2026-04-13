@@ -1,0 +1,528 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Backgrounds — layered depth */
+  --color-base: #0b0d11;
+  --color-surface: #12151c;
+  --color-surface-2: #181c25;
+  --color-surface-3: #1e2230;
+  --color-sidebar: #0e1017;
+  --color-card: #12151c;
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-subtle: rgba(255, 255, 255, 0.04);
+  --color-border-emphasis: rgba(255, 255, 255, 0.12);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+
+  /* Accent (non-status decorative) */
+  --color-accent: #2dd4a8;
+  --color-accent-dim: rgba(45, 212, 168, 0.12);
+  --color-accent-hover: #38e8ba;
+
+  /* RAG System — the primary status colors */
+  --color-rag-green: #22c55e;
+  --color-rag-green-light: #4ade80;
+  --color-rag-green-dark: #16a34a;
+  --color-rag-green-bg: rgba(34, 197, 94, 0.08);
+  --color-rag-green-border: rgba(34, 197, 94, 0.25);
+
+  --color-rag-amber: #f59e0b;
+  --color-rag-amber-light: #fbbf24;
+  --color-rag-amber-dark: #d97706;
+  --color-rag-amber-bg: rgba(245, 158, 11, 0.08);
+  --color-rag-amber-border: rgba(245, 158, 11, 0.25);
+
+  --color-rag-red: #ef4444;
+  --color-rag-red-light: #f87171;
+  --color-rag-red-dark: #dc2626;
+  --color-rag-red-bg: rgba(239, 68, 68, 0.08);
+  --color-rag-red-border: rgba(239, 68, 68, 0.25);
+
+  /* Legacy semantic (mapped to RAG) */
+  --color-success: #22c55e;
+  --color-success-dim: rgba(34, 197, 94, 0.1);
+  --color-warning: #f59e0b;
+  --color-warning-dim: rgba(245, 158, 11, 0.1);
+  --color-danger: #ef4444;
+  --color-danger-dim: rgba(239, 68, 68, 0.1);
+  --color-info: #60a5fa;
+  --color-info-dim: rgba(96, 165, 250, 0.1);
+
+  /* Map */
+  --color-map-bg: #0a0c10;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+body {
+  background: var(--color-base);
+  color: rgba(255, 255, 255, 0.92);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Mono font for KPI numbers and numeric data */
+.font-mono, .tabular-nums {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Page transition */
+.page-enter {
+  animation: fadeSlideIn 0.3s ease-out;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Card entrance stagger */
+.card-enter {
+  animation: cardEntrance 0.4s ease-out both;
+}
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════
+   RAG Map marker pulses
+   Green = slow (3s), Amber = medium (2.5s), Red = fast (1.5s)
+   ══════════════════════════════════════════ */
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25), 0 0 12px rgba(34, 197, 94, 0.15); }
+  50%      { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.08), 0 0 20px rgba(34, 197, 94, 0.1); }
+}
+@keyframes pulse-amber {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25), 0 0 12px rgba(245, 158, 11, 0.15); }
+  50%      { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.08), 0 0 20px rgba(245, 158, 11, 0.1); }
+}
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.3), 0 0 16px rgba(239, 68, 68, 0.2); }
+  50%      { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.08), 0 0 24px rgba(239, 68, 68, 0.1); }
+}
+
+/* Legacy pulse aliases */
+@keyframes pulse-healthy { 0%, 100% { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25), 0 0 12px rgba(34, 197, 94, 0.15); } 50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.08), 0 0 20px rgba(34, 197, 94, 0.1); } }
+@keyframes pulse-warning { 0%, 100% { box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25), 0 0 12px rgba(245, 158, 11, 0.15); } 50% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.08), 0 0 20px rgba(245, 158, 11, 0.1); } }
+@keyframes pulse-critical { 0%, 100% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.3), 0 0 16px rgba(239, 68, 68, 0.2); } 50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.08), 0 0 24px rgba(239, 68, 68, 0.1); } }
+
+/* RAG badge dot pulse animations */
+@keyframes rag-pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50%      { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1); }
+}
+@keyframes rag-pulse-amber {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  50%      { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1); }
+}
+@keyframes rag-pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50%      { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1); }
+}
+
+/* Route line animation */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -280; }
+}
+
+/* LIVE pulse */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-surface-2) 50%, var(--color-surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Drawer */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.drawer-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.detail-drawer {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: 480px;
+  max-width: 100vw;
+  background: var(--color-surface);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  box-shadow: -8px 0 32px rgba(0,0,0,0.4);
+  z-index: 100;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  padding: 28px;
+}
+.detail-drawer.open {
+  transform: translateX(0);
+}
+
+/* Toast notification */
+@keyframes toastEnter {
+  from { opacity: 0; transform: translateY(16px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toastExit {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(16px) scale(0.95); }
+}
+
+/* Expanded row */
+@keyframes expandRow {
+  from { opacity: 0; max-height: 0; }
+  to   { opacity: 1; max-height: 500px; }
+}
+
+/* Popup enter */
+@keyframes popupEnter {
+  from { opacity: 0; transform: scale(0.95) translateY(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Context menu enter */
+@keyframes contextEnter {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Tooltip enter */
+@keyframes tooltipEnter {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ══════════════════════════════════════════
+   LEAFLET MAP — Colorful, Alive, Live
+   ══════════════════════════════════════════ */
+
+/* Ocean blue background while tiles load */
+.leaflet-container {
+  background: #a8d4e6 !important;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Styled attribution */
+.leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.55) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  backdrop-filter: blur(8px);
+}
+
+/* Leaflet tooltip override — remove default white box */
+.leaflet-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.leaflet-tooltip::before {
+  display: none !important;
+}
+
+/* Custom map tooltip — glassmorphic dark card */
+.map-tooltip {
+  background: rgba(15, 18, 25, 0.92);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 16px 20px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255,255,255,0.1);
+  min-width: 200px;
+}
+.map-tooltip-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.map-tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+}
+.map-tooltip-label {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.map-tooltip-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Map LIVE badge ── */
+.map-live-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(15, 18, 25, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  z-index: 800;
+  font-family: 'DM Sans', sans-serif;
+}
+.map-live-dot {
+  width: 7px;
+  height: 7px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: live-blink 2s ease-in-out infinite;
+}
+@keyframes live-blink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+  50%      { opacity: 0.6; box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+}
+.map-live-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #22c55e;
+}
+.map-live-time {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Map legend pills ── */
+.map-legend-bar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  background: rgba(15, 18, 25, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  z-index: 800;
+  font-family: 'DM Sans', sans-serif;
+}
+.legend-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: default;
+  background: transparent;
+  border: none;
+}
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.legend-dot.green  { background: #22c55e; box-shadow: 0 0 4px rgba(34,197,94,0.5); }
+.legend-dot.amber  { background: #f59e0b; box-shadow: 0 0 4px rgba(245,158,11,0.5); }
+.legend-dot.red    { background: #ef4444; box-shadow: 0 0 4px rgba(239,68,68,0.5); }
+.legend-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  opacity: 0.6;
+  margin-left: 2px;
+}
+
+/* ── Tile layer switcher ── */
+.layer-switcher {
+  position: absolute;
+  bottom: 20px;
+  right: 16px;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(15, 18, 25, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  z-index: 800;
+}
+.layer-btn {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.layer-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+.layer-btn:hover:not(.active) {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ── Animated route lines (SVG dash flow) ── */
+.leaflet-overlay-pane svg path.leaflet-interactive {
+  stroke-linecap: round;
+}
+
+/* ── Vibrant pulsing markers ── */
+.marker-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.marker-dot:hover {
+  transform: scale(1.3);
+  z-index: 1000 !important;
+}
+
+.marker-healthy {
+  background: radial-gradient(circle at 35% 35%, #4ade80, #22c55e);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25), 0 0 12px rgba(34, 197, 94, 0.3), 0 0 24px rgba(34, 197, 94, 0.1);
+  animation: marker-pulse-green 3s ease-in-out infinite;
+}
+.marker-healthy::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(34, 197, 94, 0.2);
+  animation: ring-expand-green 3s ease-out infinite;
+}
+
+.marker-warning {
+  background: radial-gradient(circle at 35% 35%, #fcd34d, #f59e0b);
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25), 0 0 12px rgba(245, 158, 11, 0.3), 0 0 24px rgba(245, 158, 11, 0.1);
+  animation: marker-pulse-amber 2.5s ease-in-out infinite;
+}
+.marker-warning::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(245, 158, 11, 0.25);
+  animation: ring-expand-amber 2.5s ease-out infinite;
+}
+
+.marker-critical {
+  background: radial-gradient(circle at 35% 35%, #fca5a5, #ef4444);
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.3), 0 0 14px rgba(239, 68, 68, 0.35), 0 0 28px rgba(239, 68, 68, 0.15);
+  animation: marker-pulse-red 1.8s ease-in-out infinite;
+}
+.marker-critical::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgba(239, 68, 68, 0.3);
+  animation: ring-expand-red 1.8s ease-out infinite;
+}
+
+@keyframes marker-pulse-green {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(34,197,94,0.25), 0 0 12px rgba(34,197,94,0.3); }
+  50%      { box-shadow: 0 0 0 7px rgba(34,197,94,0.1), 0 0 20px rgba(34,197,94,0.2); }
+}
+@keyframes ring-expand-green {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes marker-pulse-amber {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(245,158,11,0.25), 0 0 12px rgba(245,158,11,0.3); }
+  50%      { box-shadow: 0 0 0 7px rgba(245,158,11,0.1), 0 0 20px rgba(245,158,11,0.2); }
+}
+@keyframes ring-expand-amber {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes marker-pulse-red {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(239,68,68,0.3), 0 0 14px rgba(239,68,68,0.35); }
+  50%      { box-shadow: 0 0 0 8px rgba(239,68,68,0.12), 0 0 24px rgba(239,68,68,0.2); }
+}
+@keyframes ring-expand-red {
+  0%   { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── Route dash-flow animation (enhanced) ── */
+@keyframes route-flow {
+  to { stroke-dashoffset: -36; }
+}
