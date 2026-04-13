@@ -6,7 +6,7 @@ import { useDashboard } from "@/DashboardContext";
 import { models } from "@/data/mockData";
 
 const cardCls =
-  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all";
+  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0 transition-all";
 
 function accuracyColor(acc: number): string {
   if (acc >= 90) return "#22c55e";
@@ -49,18 +49,24 @@ export default function ModelRegistryPage() {
           value={String(totalModels)}
           change="All registered models"
           color="#22c55e"
+          onClick={() => openDrawer({ title: "All Registered Models", body: (<div className="space-y-3">{models.map(m => (<div key={m.name} className="flex items-center justify-between py-2 border-b border-border-subtle last:border-b-0"><div><span className="text-[13px] font-semibold text-white/85">{m.name}</span><span className="ml-2 text-[11px] text-white/40">{m.type}</span></div><span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold" style={{ background: m.status === "running" ? "rgba(245,158,11,0.10)" : "rgba(34,197,94,0.10)", color: m.status === "running" ? "#f59e0b" : "#22c55e" }}>{m.status}</span></div>))}</div>) })}
+          navigateLabel="View all models"
         />
         <MetricCard
           title="Running"
           value={String(runningCount)}
           change="Currently active"
           color="#f59e0b"
+          onClick={() => addToast(`${runningCount} models currently running`, "amber")}
+          navigateLabel="View running"
         />
         <MetricCard
           title="Completed"
           value={String(completedCount)}
           change="Finished training"
           color="#22c55e"
+          onClick={() => addToast(`${completedCount} models completed training`, "green")}
+          navigateLabel="View completed"
         />
         <MetricCard
           title="Avg Quality"
@@ -68,6 +74,8 @@ export default function ModelRegistryPage() {
           suffix="%"
           change="Across all models"
           color="#22c55e"
+          onClick={() => openDrawer({ title: "Accuracy Breakdown", body: (<div className="space-y-3">{models.map(m => (<div key={m.name} className="flex items-center justify-between py-2 border-b border-border-subtle last:border-b-0"><span className="text-[12px] text-white/60">{m.name}</span><span className="text-[13px] font-mono font-semibold" style={{ color: accuracyColor(m.accuracy) }}>{m.accuracy}%</span></div>))}</div>) })}
+          navigateLabel="View accuracy"
         />
       </div>
 

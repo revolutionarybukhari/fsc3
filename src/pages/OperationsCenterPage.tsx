@@ -7,7 +7,7 @@ import { incidents, playbooks } from "@/data/mockData";
 import type { RagStatus } from "@/components/StatusBadge";
 
 const cardCls =
-  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all";
+  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200";
 
 function statusToRag(status: string): RagStatus {
   if (status === "resolved") return "green";
@@ -56,24 +56,32 @@ export default function OperationsCenterPage() {
           value={String(totalIncidents)}
           change="All tracked incidents"
           color="#f59e0b"
+          onClick={() => addToast(`${totalIncidents} total incidents tracked`, "amber")}
+          navigateLabel="View all"
         />
         <MetricCard
           title="In Progress"
           value={String(inProgressCount)}
           change="Active response"
           color="#f59e0b"
+          onClick={() => addToast(`${inProgressCount} incidents currently in progress`, "amber")}
+          navigateLabel="Filter in-progress"
         />
         <MetricCard
           title="Monitoring"
           value={String(monitoringCount)}
           change="Under observation"
           color="#f59e0b"
+          onClick={() => addToast(`${monitoringCount} incidents under monitoring`, "amber")}
+          navigateLabel="Filter monitoring"
         />
         <MetricCard
           title="Resolved"
           value={String(resolvedCount)}
           change="Successfully closed"
           color="#22c55e"
+          onClick={() => addToast(`${resolvedCount} incidents resolved`, "green")}
+          navigateLabel="Filter resolved"
         />
       </div>
 
@@ -114,10 +122,55 @@ export default function OperationsCenterPage() {
                 const pColor = priorityColor(incident.priority);
                 const isCompleted = incident.sla === "Completed";
 
+                const openIncidentDrawer = () =>
+                  openDrawer({
+                    title: incident.name,
+                    body: (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <StatusBadge
+                            status={statusToRag(incident.status)}
+                            label={statusLabel(incident.status)}
+                            pulse={incident.status === "in-progress"}
+                          />
+                          <span
+                            className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold capitalize"
+                            style={{
+                              background: pColor.bg,
+                              color: pColor.text,
+                            }}
+                          >
+                            {incident.priority}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between py-2 border-t border-border-subtle">
+                          <span className="text-[12px] text-white/40">Owner</span>
+                          <span className="text-[12px] text-white/60">{incident.owner}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-2 border-t border-border-subtle">
+                          <span className="text-[12px] text-white/40">Created</span>
+                          <span className="text-[12px] text-white/60">{incident.created}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-2 border-t border-border-subtle">
+                          <span className="text-[12px] text-white/40">SLA</span>
+                          <span
+                            className="text-[12px] font-mono"
+                            style={{
+                              color: isCompleted ? "#22c55e" : "rgba(255,255,255,0.56)",
+                            }}
+                          >
+                            {incident.sla}
+                          </span>
+                        </div>
+                      </div>
+                    ),
+                  });
+
                 return (
                   <tr
                     key={incident.id}
-                    className="border-b border-border-subtle last:border-b-0 hover:bg-white/[0.02] transition-colors"
+                    className="border-b border-border-subtle last:border-b-0 hover:bg-white/[0.02] transition-colors cursor-pointer"
+                    onClick={openIncidentDrawer}
                   >
                     <td className="py-3.5 pr-5">
                       <p className="text-[13px] font-semibold text-white/90">
@@ -165,64 +218,10 @@ export default function OperationsCenterPage() {
                     <td className="py-3.5 text-right">
                       <button
                         type="button"
-                        onClick={() =>
-                          openDrawer({
-                            title: incident.name,
-                            body: (
-                              <div className="space-y-4">
-                                <div className="flex items-center gap-2">
-                                  <StatusBadge
-                                    status={statusToRag(incident.status)}
-                                    label={statusLabel(incident.status)}
-                                    pulse={
-                                      incident.status === "in-progress"
-                                    }
-                                  />
-                                  <span
-                                    className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold capitalize"
-                                    style={{
-                                      background: pColor.bg,
-                                      color: pColor.text,
-                                    }}
-                                  >
-                                    {incident.priority}
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-between py-2 border-t border-border-subtle">
-                                  <span className="text-[12px] text-white/40">
-                                    Owner
-                                  </span>
-                                  <span className="text-[12px] text-white/60">
-                                    {incident.owner}
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-between py-2 border-t border-border-subtle">
-                                  <span className="text-[12px] text-white/40">
-                                    Created
-                                  </span>
-                                  <span className="text-[12px] text-white/60">
-                                    {incident.created}
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-between py-2 border-t border-border-subtle">
-                                  <span className="text-[12px] text-white/40">
-                                    SLA
-                                  </span>
-                                  <span
-                                    className="text-[12px] font-mono"
-                                    style={{
-                                      color: isCompleted
-                                        ? "#22c55e"
-                                        : "rgba(255,255,255,0.56)",
-                                    }}
-                                  >
-                                    {incident.sla}
-                                  </span>
-                                </div>
-                              </div>
-                            ),
-                          })
-                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openIncidentDrawer();
+                        }}
                         className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] transition-colors border border-border-subtle hover:border-border-emphasis"
                       >
                         <Eye className="h-3.5 w-3.5 text-white/50" />
@@ -246,7 +245,11 @@ export default function OperationsCenterPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {playbooks.map((pb) => (
-            <div key={pb.name} className={cardCls}>
+            <div
+              key={pb.name}
+              className={`${cardCls} cursor-pointer hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0`}
+              onClick={() => addToast(`Playbook "${pb.name}" activated`, "info")}
+            >
               <p className="text-[14px] font-semibold text-white/90 mb-1.5">
                 {pb.name}
               </p>
@@ -259,9 +262,10 @@ export default function OperationsCenterPage() {
               </div>
               <button
                 type="button"
-                onClick={() =>
-                  addToast(`Playbook "${pb.name}" activated`, "info")
-                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addToast(`Playbook "${pb.name}" activated`, "info");
+                }}
                 className="w-full text-[11px] font-medium text-accent bg-accent-dim hover:bg-accent/20 rounded-lg py-2 px-3 transition-colors"
               >
                 Activate

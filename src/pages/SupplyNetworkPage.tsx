@@ -15,7 +15,7 @@ const depColor = (dep: number) =>
       : "#22c55e";
 
 export default function SupplyNetworkPage() {
-  const { setCountryFilter, addToast } = useDashboard();
+  const { setCountryFilter, addToast, openDrawer, setActiveTab } = useDashboard();
 
   return (
     <>
@@ -26,10 +26,10 @@ export default function SupplyNetworkPage() {
 
       {/* Metric cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-6 mb-6 sm:mb-8">
-        <MetricCard title="Total Import Volume" value="875,000" suffix="MT/mo" change="Up 4.2% vs last month" color="#22c55e" />
-        <MetricCard title="Active Origins" value="12" change="All reporting" color="#22c55e" />
-        <MetricCard title="High Risk Origins" value="3" change="Indonesia, Philippines, Myanmar" color="#ef4444" isNegative />
-        <MetricCard title="Avg Dependency" value="30" suffix="%" change="Across all origins" color="#f59e0b" />
+        <MetricCard title="Total Import Volume" value="875,000" suffix="MT/mo" change="Up 4.2% vs last month" color="#22c55e" onClick={() => openDrawer({ title: "Import Volume Breakdown", body: (<div className="space-y-3"><p className="text-[13px] text-white/60 leading-relaxed">Total monthly import volume across all origins.</p><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Current month</span><span className="text-[13px] font-mono font-semibold text-white/70">875,000 MT</span></div><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Previous month</span><span className="text-[13px] font-mono text-white/50">839,700 MT</span></div><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Change</span><span className="text-[13px] font-mono font-semibold text-[#22c55e]">+4.2%</span></div></div>) })} navigateLabel="View volume details" />
+        <MetricCard title="Active Origins" value="12" change="All reporting" color="#22c55e" onClick={() => { addToast("12 active origins currently reporting", "green"); }} navigateLabel="View origins" />
+        <MetricCard title="High Risk Origins" value="3" change="Indonesia, Philippines, Myanmar" color="#ef4444" isNegative onClick={() => setActiveTab("Risk Intelligence")} navigateLabel="View risk details" />
+        <MetricCard title="Avg Dependency" value="30" suffix="%" change="Across all origins" color="#f59e0b" onClick={() => openDrawer({ title: "Dependency Analysis", body: (<div className="space-y-3"><p className="text-[13px] text-white/60 leading-relaxed">Average import dependency across all 12 active origins.</p>{sorted.slice(0, 5).map(c => (<div key={c.code} className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">{c.name}</span><span className="text-[13px] font-mono font-semibold" style={{ color: depColor(c.dependency) }}>{c.dependency}%</span></div>))}</div>) })} navigateLabel="View dependency" />
       </div>
 
       {/* Main grid: Map + Import Origins */}

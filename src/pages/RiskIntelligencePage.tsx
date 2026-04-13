@@ -5,6 +5,7 @@ import StatusBadge from "@/components/StatusBadge";
 import Modal, { ModalLabel, ModalSelect, ModalBtnCancel, ModalBtnConfirm } from "@/components/Modal";
 import { useDashboard } from "@/DashboardContext";
 import { riskMatrix, riskCategories, riskCategoryLabels } from "@/data/mockData";
+import type { RagStatus } from "@/components/StatusBadge";
 
 const cellColor = (v: number) =>
   v === 0
@@ -29,7 +30,7 @@ const topCategories = [
 ];
 
 export default function RiskIntelligencePage() {
-  const { addToast } = useDashboard();
+  const { addToast, openDrawer } = useDashboard();
   const [riskType, setRiskType] = useState<"Inherent" | "Residual">("Inherent");
   const [commodity, setCommodity] = useState("All Commodities");
   const [timeWindow, setTimeWindow] = useState("30 Days");
@@ -46,10 +47,10 @@ export default function RiskIntelligencePage() {
 
       {/* Metric cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-6 mb-6 sm:mb-8">
-        <MetricCard title="Total Active Risks" value="23" change="3 new this week" color="#22c55e" />
-        <MetricCard title="Critical" value="3" change="1 escalated" color="#ef4444" isNegative />
-        <MetricCard title="High" value="6" change="2 under review" color="#f59e0b" />
-        <MetricCard title="Medium" value="9" change="4 mitigated" color="#f59e0b" />
+        <MetricCard title="Total Active Risks" value="23" change="3 new this week" color="#22c55e" onClick={() => openDrawer({ title: "Active Risks Breakdown", body: (<div className="space-y-3"><div className="flex justify-between py-2 border-b border-border-subtle"><span className="text-[12px] text-white/40">Critical</span><span className="text-[13px] font-mono font-semibold text-[#ef4444]">3</span></div><div className="flex justify-between py-2 border-b border-border-subtle"><span className="text-[12px] text-white/40">High</span><span className="text-[13px] font-mono font-semibold text-[#f59e0b]">6</span></div><div className="flex justify-between py-2 border-b border-border-subtle"><span className="text-[12px] text-white/40">Medium</span><span className="text-[13px] font-mono font-semibold text-[#f59e0b]">9</span></div><div className="flex justify-between py-2"><span className="text-[12px] text-white/40">Low</span><span className="text-[13px] font-mono font-semibold text-[#22c55e]">5</span></div></div>) })} navigateLabel="View breakdown" />
+        <MetricCard title="Critical" value="3" change="1 escalated" color="#ef4444" isNegative onClick={() => openDrawer({ title: "Critical Risks", body: (<div className="space-y-3"><p className="text-[13px] text-white/60 leading-relaxed">3 critical risks require immediate attention. 1 was escalated this week.</p><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Escalated</span><span className="text-[12px] text-[#ef4444] font-semibold">1</span></div><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Under review</span><span className="text-[12px] text-white/60">2</span></div></div>) })} navigateLabel="View critical" />
+        <MetricCard title="High" value="6" change="2 under review" color="#f59e0b" onClick={() => openDrawer({ title: "High Risks", body: (<div className="space-y-3"><p className="text-[13px] text-white/60 leading-relaxed">6 high-severity risks. 2 are currently under review.</p><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Under review</span><span className="text-[12px] text-[#f59e0b] font-semibold">2</span></div><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Pending mitigation</span><span className="text-[12px] text-white/60">4</span></div></div>) })} navigateLabel="View high risks" />
+        <MetricCard title="Medium" value="9" change="4 mitigated" color="#f59e0b" onClick={() => openDrawer({ title: "Medium Risks", body: (<div className="space-y-3"><p className="text-[13px] text-white/60 leading-relaxed">9 medium-severity risks. 4 have been mitigated.</p><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Mitigated</span><span className="text-[12px] text-[#22c55e] font-semibold">4</span></div><div className="flex justify-between py-2 border-t border-border-subtle"><span className="text-[12px] text-white/40">Active</span><span className="text-[12px] text-white/60">5</span></div></div>) })} navigateLabel="View medium risks" />
       </div>
 
       {/* Filter bar */}
@@ -159,7 +160,11 @@ export default function RiskIntelligencePage() {
           {/* Severity bars */}
           <div className="flex flex-col gap-3 mb-6">
             {severities.map((s) => (
-              <div key={s.label} className="flex items-center gap-3">
+              <div
+                key={s.label}
+                className="flex items-center gap-3 cursor-pointer hover:bg-white/[0.03] rounded-lg transition-all p-1.5 -mx-1.5"
+                onClick={() => addToast(`Filtering: ${s.label} risks`, s.status as RagStatus)}
+              >
                 <StatusBadge status={s.status} label={s.label} />
                 <div className="flex-1 h-2 bg-white/[0.04] rounded-full overflow-hidden">
                   <div
@@ -191,7 +196,8 @@ export default function RiskIntelligencePage() {
               {topCategories.map((c) => (
                 <div
                   key={c.name}
-                  className="flex items-center justify-between p-2.5 rounded-lg bg-surface-2 text-[12px]"
+                  className="flex items-center justify-between p-2.5 rounded-lg bg-surface-2 text-[12px] cursor-pointer hover:border-border-emphasis hover:-translate-y-px transition-all border border-transparent"
+                  onClick={() => addToast(`${c.name}: ${c.count} active risks`, "amber")}
                 >
                   <span className="text-white/70">{c.name}</span>
                   <span className="text-white/50 font-mono font-semibold">{c.count}</span>

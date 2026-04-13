@@ -26,7 +26,7 @@ const sevToRag = (s: string): RagStatus =>
   s === "critical" || s === "high" ? "red" : s === "medium" ? "amber" : "green";
 
 const cardCls =
-  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200";
+  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-all duration-200";
 
 const sectionTitle =
   "text-[13px] sm:text-[14px] font-semibold text-white/80";
@@ -110,7 +110,7 @@ export default function DashboardPage() {
                 key={alert.id}
                 type="button"
                 onClick={() => handleAlertClick(alert)}
-                className="w-full text-left rounded-lg border border-border-subtle bg-white/[0.02] p-4 hover:border-border-emphasis hover:bg-white/[0.04] transition-all duration-150 cursor-pointer"
+                className="w-full text-left rounded-lg border border-border-subtle bg-white/[0.02] p-4 hover:border-border-emphasis hover:bg-white/[0.04] hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[0.995] transition-all duration-150 cursor-pointer"
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   <StatusBadge
@@ -155,13 +155,18 @@ export default function DashboardPage() {
       {/* ── Charts row ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-8">
         {/* Production by Country */}
-        <div className={cardCls}>
+        <div className={`${cardCls} cursor-pointer`}>
           <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Production by Country</h3>
           <ResponsiveContainer width="100%" height={260}>
             <BarChart
               data={productionByCountry}
               layout="vertical"
               margin={{ top: 0, right: 12, bottom: 0, left: 8 }}
+              onClick={(state) => {
+                if (state?.activeLabel) {
+                  handleCountryClick(String(state.activeLabel));
+                }
+              }}
             >
               <CartesianGrid
                 strokeDasharray="3 3"
@@ -185,7 +190,7 @@ export default function DashboardPage() {
               />
               <Tooltip
                 contentStyle={ttStyle}
-                cursor={{ fill: "rgba(255,255,255,0.03)" }}
+                cursor={{ fill: "rgba(255,255,255,0.06)" }}
                 formatter={(v) => [`${Number(v).toLocaleString()} MT`, "Volume"]}
               />
               <Bar
@@ -193,13 +198,14 @@ export default function DashboardPage() {
                 fill="#22c55e"
                 radius={[0, 4, 4, 0]}
                 barSize={18}
+                cursor="pointer"
               />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Shipped Tonnage */}
-        <div className={cardCls}>
+        <div className={`${cardCls} cursor-pointer`}>
           <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Shipped Tonnage (6M)</h3>
           <ResponsiveContainer width="100%" height={260}>
             <AreaChart
@@ -276,18 +282,20 @@ export default function DashboardPage() {
       <div className={`${cardCls} mb-6 sm:mb-10`}>
         <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>System Status</h3>
         <div className="space-y-3">
-          <div className="flex items-center justify-between py-3 border-b border-border-subtle">
-            <span className="text-[13px] text-white/60">Overall Status</span>
-            <StatusBadge status="green" label="Stable" />
-          </div>
-          <div className="flex items-center justify-between py-3 border-b border-border-subtle">
-            <span className="text-[13px] text-white/60">Supply Chain</span>
-            <StatusBadge status="amber" label="Risky" />
-          </div>
-          <div className="flex items-center justify-between py-3">
-            <span className="text-[13px] text-white/60">Price Stability</span>
-            <StatusBadge status="green" label="Stable" />
-          </div>
+          {([
+            { label: "Overall Status", status: "green" as const, statusLabel: "Stable", border: true },
+            { label: "Supply Chain", status: "amber" as const, statusLabel: "Risky", border: true },
+            { label: "Price Stability", status: "green" as const, statusLabel: "Stable", border: false },
+          ] as const).map((row) => (
+            <div
+              key={row.label}
+              className={`flex items-center justify-between py-3 rounded-lg px-2 -mx-2 cursor-pointer hover:bg-white/[0.03] active:scale-[0.99] transition-all duration-150${row.border ? " border-b border-border-subtle" : ""}`}
+              onClick={() => addToast(`System status: ${row.label} is ${row.statusLabel}`, row.status === "green" ? "green" : "amber")}
+            >
+              <span className="text-[13px] text-white/60">{row.label}</span>
+              <StatusBadge status={row.status} label={row.statusLabel} />
+            </div>
+          ))}
         </div>
       </div>
     </>

@@ -44,7 +44,7 @@ const productionCentres = [
 ];
 
 export default function OverviewPage() {
-  const { openDrawer } = useDashboard();
+  const { openDrawer, addToast, setCountryFilter } = useDashboard();
   const topAlerts = alerts.slice(0, 5);
 
   function openKpiDrawer(title: string, value: string) {
@@ -125,7 +125,7 @@ export default function OverviewPage() {
       {/* ── Two-column layout ── */}
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5 sm:gap-6 mb-6 sm:mb-10">
         {/* ── Active Alerts ── */}
-        <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7">
+        <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[0.995] transition-all duration-200">
           <div className="flex items-center gap-2 mb-5 sm:mb-6">
             <AlertTriangle className="h-4 w-4 text-rag-amber" />
             <h3 className="text-[13px] font-semibold text-white/80 tracking-[-0.01em]">Active Alerts</h3>
@@ -136,8 +136,33 @@ export default function OverviewPage() {
             {topAlerts.map((alert) => (
               <div
                 key={alert.id}
-                className="rounded-lg border border-border-subtle p-4 transition-colors hover:border-border-emphasis"
+                className="rounded-lg border border-border-subtle p-4 cursor-pointer hover:bg-white/[0.03] hover:border-border-emphasis hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[0.995] transition-all duration-150"
                 style={{ borderLeftWidth: 3, borderLeftColor: severityBorderColor[alert.severity] }}
+                onClick={() =>
+                  openDrawer({
+                    title: alert.title,
+                    body: (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                          <StatusBadge status={severityToRag[alert.severity]} label={alert.severity} pulse={alert.severity === "critical"} />
+                          <span className="text-[11px] text-white/40">{alert.time}</span>
+                        </div>
+                        <p className="text-[13px] font-mono text-white/60">Risk: {alert.riskScore}/100</p>
+                        <div>
+                          <p className="text-[12px] font-medium text-white/50 mb-2">Recommended Actions</p>
+                          <ul className="space-y-1.5">
+                            {alert.actions.map((a, i) => (
+                              <li key={i} className="text-[12px] text-white/60 pl-3 relative before:content-[''] before:absolute before:left-0 before:top-[7px] before:w-1.5 before:h-1.5 before:rounded-full before:bg-white/20">
+                                {a}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] text-white/50 bg-white/[0.06]">{alert.country}</span>
+                      </div>
+                    ),
+                  })
+                }
               >
                 <div className="flex flex-wrap items-center gap-2 mb-2">
                   <StatusBadge status={severityToRag[alert.severity]} label={alert.severity} />
@@ -174,7 +199,7 @@ export default function OverviewPage() {
         {/* ── Right column ── */}
         <div className="space-y-5 sm:space-y-6">
           {/* Forecast Window */}
-          <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7">
+          <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[0.995] transition-all duration-200">
             <div className="flex items-center justify-between mb-5 sm:mb-6">
               <h3 className="text-[13px] font-semibold text-white/80 tracking-[-0.01em]">Forecast Window</h3>
               <span className="text-[11px] text-white/30">Next 30 days</span>
@@ -186,7 +211,8 @@ export default function OverviewPage() {
               {forecastItems.map((item) => (
                 <div
                   key={item.label}
-                  className="flex items-center justify-between rounded-lg px-3 py-2.5 border border-border-subtle hover:border-border-emphasis transition-colors"
+                  className="flex items-center justify-between rounded-lg px-3 py-2.5 border border-border-subtle cursor-pointer hover:bg-white/[0.04] hover:border-border-emphasis hover:-translate-y-px active:scale-[0.99] transition-all duration-150"
+                  onClick={() => addToast("Viewing forecast: " + item.label, "info")}
                 >
                   <span className="text-[12px] text-white/60">{item.label}</span>
                   <StatusBadge status={item.rag} />
@@ -196,11 +222,15 @@ export default function OverviewPage() {
           </div>
 
           {/* Top Production Centres */}
-          <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7">
+          <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0 active:scale-[0.995] transition-all duration-200">
             <h3 className="text-[13px] font-semibold text-white/80 tracking-[-0.01em] mb-5 sm:mb-6">Top Production Centres</h3>
             <div className="space-y-3">
               {productionCentres.map((pc) => (
-                <div key={pc.country}>
+                <div
+                  key={pc.country}
+                  className="cursor-pointer hover:bg-white/[0.03] active:scale-[0.99] transition-all duration-150 rounded-lg px-2 py-1 -mx-2"
+                  onClick={() => { setCountryFilter(pc.country); addToast("Filtered: " + pc.country, "info"); }}
+                >
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[12px] text-white/60">{pc.country}</span>
                     <span className="text-[12px] font-mono text-white/50">{pc.volume}K MT</span>
