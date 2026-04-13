@@ -26,7 +26,7 @@ const sevToRag = (s: string): RagStatus =>
   s === "critical" || s === "high" ? "red" : s === "medium" ? "amber" : "green";
 
 const cardCls =
-  "bg-surface rounded-xl border border-border-subtle p-4 sm:p-6 hover:border-border-emphasis transition-all duration-200";
+  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200";
 
 const sectionTitle =
   "text-[13px] sm:text-[14px] font-semibold text-white/80";
@@ -87,28 +87,30 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <>
       {/* ── Section Header ── */}
-      <SectionHeader
-        title="Live Food Security Dashboard"
-        description="Real-time monitoring and control centre"
-      />
+      <div className="mb-6 sm:mb-7">
+        <SectionHeader
+          title="Live Food Security Dashboard"
+          description="Real-time monitoring and control centre"
+        />
+      </div>
 
       {/* ── Map + Alerts row ── */}
-      <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-5 sm:gap-6 mb-6 sm:mb-8">
         {/* Map */}
         <LiveMap height="420px" onCountryClick={handleCountryClick} />
 
         {/* Active Alerts panel */}
         <div className={cardCls}>
-          <h3 className={`${sectionTitle} mb-4`}>Active Alerts</h3>
-          <div className="space-y-3 max-h-[370px] overflow-y-auto pr-1 custom-scrollbar">
+          <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Active Alerts</h3>
+          <div className="space-y-4 max-h-[380px] overflow-y-auto pr-2 custom-scrollbar">
             {alerts.slice(0, 5).map((alert) => (
               <button
                 key={alert.id}
                 type="button"
                 onClick={() => handleAlertClick(alert)}
-                className="w-full text-left rounded-lg border border-border-subtle bg-white/[0.02] p-3 hover:border-border-emphasis hover:bg-white/[0.04] transition-all duration-150 cursor-pointer"
+                className="w-full text-left rounded-lg border border-border-subtle bg-white/[0.02] p-4 hover:border-border-emphasis hover:bg-white/[0.04] transition-all duration-150 cursor-pointer"
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   <StatusBadge
@@ -151,11 +153,11 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Charts row ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-8">
         {/* Production by Country */}
         <div className={cardCls}>
-          <h3 className={`${sectionTitle} mb-4`}>Production by Country</h3>
-          <ResponsiveContainer width="100%" height={280}>
+          <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Production by Country</h3>
+          <ResponsiveContainer width="100%" height={260}>
             <BarChart
               data={productionByCountry}
               layout="vertical"
@@ -198,8 +200,8 @@ export default function DashboardPage() {
 
         {/* Shipped Tonnage */}
         <div className={cardCls}>
-          <h3 className={`${sectionTitle} mb-4`}>Shipped Tonnage (6M)</h3>
-          <ResponsiveContainer width="100%" height={280}>
+          <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Shipped Tonnage (6M)</h3>
+          <ResponsiveContainer width="100%" height={260}>
             <AreaChart
               data={shippedTonnage}
               margin={{ top: 0, right: 12, bottom: 0, left: 8 }}
@@ -271,23 +273,23 @@ export default function DashboardPage() {
       </div>
 
       {/* ── System Status ── */}
-      <div className={cardCls}>
-        <h3 className={`${sectionTitle} mb-4`}>System Status</h3>
+      <div className={`${cardCls} mb-6 sm:mb-10`}>
+        <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>System Status</h3>
         <div className="space-y-3">
-          <div className="flex items-center justify-between py-2 border-b border-border-subtle">
+          <div className="flex items-center justify-between py-3 border-b border-border-subtle">
             <span className="text-[13px] text-white/60">Overall Status</span>
             <StatusBadge status="green" label="Stable" />
           </div>
-          <div className="flex items-center justify-between py-2 border-b border-border-subtle">
+          <div className="flex items-center justify-between py-3 border-b border-border-subtle">
             <span className="text-[13px] text-white/60">Supply Chain</span>
             <StatusBadge status="amber" label="Risky" />
           </div>
-          <div className="flex items-center justify-between py-2">
+          <div className="flex items-center justify-between py-3">
             <span className="text-[13px] text-white/60">Price Stability</span>
             <StatusBadge status="green" label="Stable" />
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

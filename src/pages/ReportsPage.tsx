@@ -16,7 +16,7 @@ export default function ReportsPage() {
       />
 
       {/* ── Metric Cards ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-6 sm:mb-8">
         <MetricCard
           title="Report Templates"
           value="5"
@@ -44,15 +44,15 @@ export default function ReportsPage() {
       </div>
 
       {/* ── Report Templates ── */}
-      <div>
-        <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-4">
+      <div className="mb-6 sm:mb-10">
+        <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">
           Report Templates
         </h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
           {reportTemplates.map((tpl) => (
             <div
               key={tpl.name}
-              className="bg-surface rounded-xl border border-border-subtle p-5 hover:border-border-emphasis transition-all duration-200"
+              className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 hover:border-border-emphasis transition-all duration-200"
             >
               {/* Top row */}
               <div className="flex items-start gap-3 mb-3">

@@ -25,7 +25,7 @@ export default function SupplyNetworkPage() {
       />
 
       {/* Metric cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5 mb-5 sm:mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-6 mb-6 sm:mb-8">
         <MetricCard title="Total Import Volume" value="875,000" suffix="MT/mo" change="Up 4.2% vs last month" color="#22c55e" />
         <MetricCard title="Active Origins" value="12" change="All reporting" color="#22c55e" />
         <MetricCard title="High Risk Origins" value="3" change="Indonesia, Philippines, Myanmar" color="#ef4444" isNegative />
@@ -33,7 +33,7 @@ export default function SupplyNetworkPage() {
       </div>
 
       {/* Main grid: Map + Import Origins */}
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5 sm:gap-6 mb-6 sm:mb-10">
         {/* Left: LiveMap */}
         <LiveMap
           height="500px"
@@ -46,7 +46,7 @@ export default function SupplyNetworkPage() {
 
         {/* Right: Import Origins sidebar */}
         <div className="bg-surface rounded-xl border border-border-subtle hover:border-border-emphasis transition-all duration-200 overflow-hidden flex flex-col" style={{ maxHeight: "540px" }}>
-          <div className="px-4 sm:px-5 py-4 border-b border-border-subtle shrink-0">
+          <div className="px-5 sm:px-6 py-4 border-b border-border-subtle shrink-0">
             <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80">Import Origins</h3>
             <p className="text-[11px] text-white/34 mt-1">{sorted.length} active origins sorted by volume</p>
           </div>
@@ -55,7 +55,7 @@ export default function SupplyNetworkPage() {
             {sorted.map((c) => (
               <div
                 key={c.code}
-                className="flex flex-col gap-2 px-4 sm:px-5 py-3.5 border-b border-border-subtle/40 cursor-pointer hover:bg-white/[0.02] transition-colors"
+                className="flex flex-col gap-2 px-5 sm:px-6 py-3.5 border-b border-border-subtle/40 cursor-pointer hover:bg-white/[0.02] transition-colors"
                 onClick={() => {
                   setCountryFilter(c.name);
                   addToast(`Filtered to ${c.name}`, "info");

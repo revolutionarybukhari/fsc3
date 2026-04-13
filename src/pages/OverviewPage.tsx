@@ -64,15 +64,17 @@ export default function OverviewPage() {
   }
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <>
       {/* ── Section header ── */}
-      <SectionHeader
-        title="Executive Overview"
-        description="High-level situational awareness and key performance indicators"
-      />
+      <div className="mb-6 sm:mb-7">
+        <SectionHeader
+          title="Executive Overview"
+          description="High-level situational awareness and key performance indicators"
+        />
+      </div>
 
       {/* ── Hero KPI row ── */}
-      <div className="grid grid-cols-2 xl:grid-cols-5 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 xl:grid-cols-5 gap-5 sm:gap-6 mb-6 sm:mb-8">
         <HeroKpiCard
           title="Food Security Index"
           value="72.4"
@@ -121,16 +123,16 @@ export default function OverviewPage() {
       </div>
 
       {/* ── Two-column layout ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5 sm:gap-6 mb-6 sm:mb-10">
         {/* ── Active Alerts ── */}
-        <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6">
-          <div className="flex items-center gap-2 mb-5">
+        <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7">
+          <div className="flex items-center gap-2 mb-5 sm:mb-6">
             <AlertTriangle className="h-4 w-4 text-rag-amber" />
             <h3 className="text-[13px] font-semibold text-white/80 tracking-[-0.01em]">Active Alerts</h3>
             <span className="ml-auto text-[11px] text-white/30">{topAlerts.length} of {alerts.length}</span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             {topAlerts.map((alert) => (
               <div
                 key={alert.id}
@@ -170,14 +172,14 @@ export default function OverviewPage() {
         </div>
 
         {/* ── Right column ── */}
-        <div className="space-y-4 sm:space-y-5">
+        <div className="space-y-5 sm:space-y-6">
           {/* Forecast Window */}
-          <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6">
-            <div className="flex items-center justify-between mb-4">
+          <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7">
+            <div className="flex items-center justify-between mb-5 sm:mb-6">
               <h3 className="text-[13px] font-semibold text-white/80 tracking-[-0.01em]">Forecast Window</h3>
               <span className="text-[11px] text-white/30">Next 30 days</span>
             </div>
-            <div className="mb-4">
+            <div className="mb-5">
               <StatusBadge status="amber" label="Medium Risk" />
             </div>
             <div className="space-y-3">
@@ -194,8 +196,8 @@ export default function OverviewPage() {
           </div>
 
           {/* Top Production Centres */}
-          <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6">
-            <h3 className="text-[13px] font-semibold text-white/80 tracking-[-0.01em] mb-4">Top Production Centres</h3>
+          <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7">
+            <h3 className="text-[13px] font-semibold text-white/80 tracking-[-0.01em] mb-5 sm:mb-6">Top Production Centres</h3>
             <div className="space-y-3">
               {productionCentres.map((pc) => (
                 <div key={pc.country}>
@@ -218,6 +220,6 @@ export default function OverviewPage() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

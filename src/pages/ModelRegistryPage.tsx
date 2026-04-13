@@ -6,7 +6,7 @@ import { useDashboard } from "@/DashboardContext";
 import { models } from "@/data/mockData";
 
 const cardCls =
-  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 hover:border-border-emphasis transition-all";
+  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all";
 
 function accuracyColor(acc: number): string {
   if (acc >= 90) return "#22c55e";
@@ -43,7 +43,7 @@ export default function ModelRegistryPage() {
       />
 
       {/* ── Metric cards ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-6 sm:mb-8">
         <MetricCard
           title="Total Models"
           value={String(totalModels)}
@@ -72,7 +72,7 @@ export default function ModelRegistryPage() {
       </div>
 
       {/* ── Model cards grid ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-10">
         {models.map((model, idx) => {
           const isExpanded = expandedIdx === idx;
           const accColor = accuracyColor(model.accuracy);
@@ -86,7 +86,7 @@ export default function ModelRegistryPage() {
               onClick={() => toggleExpand(idx)}
             >
               {/* Header row */}
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-5 sm:mb-6">
                 <div className="flex items-center gap-3">
                   <div
                     className="flex items-center justify-center w-9 h-9 rounded-lg"

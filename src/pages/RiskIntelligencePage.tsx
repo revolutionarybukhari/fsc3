@@ -45,7 +45,7 @@ export default function RiskIntelligencePage() {
       />
 
       {/* Metric cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5 mb-5 sm:mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-6 mb-6 sm:mb-8">
         <MetricCard title="Total Active Risks" value="23" change="3 new this week" color="#22c55e" />
         <MetricCard title="Critical" value="3" change="1 escalated" color="#ef4444" isNegative />
         <MetricCard title="High" value="6" change="2 under review" color="#f59e0b" />
@@ -53,7 +53,7 @@ export default function RiskIntelligencePage() {
       </div>
 
       {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-3 mb-5 sm:mb-6">
+      <div className="flex flex-wrap items-center gap-4 sm:gap-5 mb-6 sm:mb-8">
         {/* Risk Type toggle */}
         <div className="flex rounded-lg border border-border-subtle overflow-hidden">
           {(["Inherent", "Residual"] as const).map((t) => (
@@ -95,10 +95,10 @@ export default function RiskIntelligencePage() {
       </div>
 
       {/* Main grid: Heat Map + Summary */}
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4 sm:gap-5 mb-5 sm:mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-5 sm:gap-6 mb-6 sm:mb-8">
         {/* Left: 5x5 Risk Heat Map */}
-        <div className="bg-surface rounded-xl border border-border-subtle p-4 sm:p-6 hover:border-border-emphasis transition-all duration-200">
-          <div className="flex items-center justify-between mb-3 sm:mb-5">
+        <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200">
+          <div className="flex items-center justify-between mb-5 sm:mb-6">
             <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80">
               5x5 Risk Heat Map
               <span className="ml-2 text-[11px] font-normal text-white/34">({riskType})</span>
@@ -126,7 +126,7 @@ export default function RiskIntelligencePage() {
                       return (
                         <td key={cat} className="py-1.5 px-2">
                           <div
-                            className={`${cellColor(count)} rounded-lg h-12 flex items-center justify-center text-[16px] font-bold font-mono cursor-pointer hover:scale-[1.03] transition-transform`}
+                            className={`${cellColor(count)} rounded-lg h-14 flex items-center justify-center text-[16px] font-bold font-mono cursor-pointer hover:scale-[1.03] transition-transform`}
                             onClick={() =>
                               addToast(
                                 `${count} ${riskCategoryLabels[cat]} risks at ${row.likelihood} likelihood`,
@@ -147,8 +147,8 @@ export default function RiskIntelligencePage() {
         </div>
 
         {/* Right: Risk Summary */}
-        <div className="bg-surface rounded-xl border border-border-subtle p-4 sm:p-6 hover:border-border-emphasis transition-all duration-200">
-          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5">Risk Summary</h3>
+        <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200">
+          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">Risk Summary</h3>
 
           {/* Big number */}
           <div className="text-center mb-6">
@@ -203,13 +203,15 @@ export default function RiskIntelligencePage() {
       </div>
 
       {/* Run Scenario button */}
-      <button
-        onClick={() => setModalOpen(true)}
-        className="px-5 py-2.5 rounded-lg border-none text-[13px] font-semibold text-[#0b0d11] cursor-pointer transition-all hover:-translate-y-px active:translate-y-0"
-        style={{ background: "#22c55e" }}
-      >
-        Run Scenario
-      </button>
+      <div className="mb-6 sm:mb-10">
+        <button
+          onClick={() => setModalOpen(true)}
+          className="px-5 py-2.5 rounded-lg border-none text-[13px] font-semibold text-[#0b0d11] cursor-pointer transition-all hover:-translate-y-px active:translate-y-0"
+          style={{ background: "#22c55e" }}
+        >
+          Run Scenario
+        </button>
+      </div>
 
       {/* Scenario Modal */}
       <Modal

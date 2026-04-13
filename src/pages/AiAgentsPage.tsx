@@ -9,7 +9,7 @@ import {
 import { BrainCircuit, ArrowDown, Zap } from "lucide-react";
 
 const cardCls =
-  "bg-surface rounded-xl border border-border-subtle p-4 sm:p-6 hover:border-border-emphasis transition-all duration-200";
+  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200";
 
 export default function AiAgentsPage() {
   const { addToast } = useDashboard();
@@ -17,7 +17,7 @@ export default function AiAgentsPage() {
   return (
     <div className="space-y-6">
       {/* ── Header + Model Training button ── */}
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between mb-6 sm:mb-8">
         <SectionHeader
           title="AI Agent Orchestration"
           description="LLM-powered multi-agent workflow with autonomous reasoning"
@@ -33,7 +33,7 @@ export default function AiAgentsPage() {
       </div>
 
       {/* ── Info Banner ── */}
-      <div className="rounded-xl border border-purple-500/20 bg-purple-500/[0.06] p-5">
+      <div className="rounded-xl border border-purple-500/20 bg-purple-500/[0.06] p-5 mb-6 sm:mb-8">
         <h3 className="text-[14px] font-semibold text-purple-300 mb-1.5">
           Agentic AI Framework
         </h3>
@@ -45,16 +45,16 @@ export default function AiAgentsPage() {
       </div>
 
       {/* ── Main Grid ── */}
-      <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-5 sm:gap-6 mb-6 sm:mb-10">
         {/* Left — Agent Workflow Canvas */}
         <div className={cardCls}>
-          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-6">
+          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">
             Agent Workflow Canvas
           </h3>
 
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-5 sm:gap-6">
             {/* INPUT LAYER */}
-            <div className="w-full">
+            <div className="w-full py-5 sm:py-6">
               <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-white/30 mb-3 text-center">
                 Input Layer
               </p>
@@ -62,7 +62,7 @@ export default function AiAgentsPage() {
                 {agentInputs.map((input) => (
                   <span
                     key={input}
-                    className="px-4 py-2 bg-surface-2 rounded-lg border border-border-subtle text-[12px] text-white/60"
+                    className="px-4 py-2.5 bg-surface-2 rounded-lg border border-border-subtle text-[12px] text-white/60"
                   >
                     {input}
                   </span>
@@ -74,15 +74,15 @@ export default function AiAgentsPage() {
             <ArrowDown className="h-5 w-5 text-white/20" />
 
             {/* PROCESSING LAYER */}
-            <div className="w-full">
+            <div className="w-full py-5 sm:py-6">
               <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-white/30 mb-3 text-center">
                 Processing Layer
               </p>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4 sm:gap-5">
                 {agentProcessors.map((proc) => (
                   <div
                     key={proc.name}
-                    className="bg-surface-2 rounded-lg border border-border-subtle p-4"
+                    className="bg-surface-2 rounded-lg border border-border-subtle p-5 sm:p-6"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[13px] font-medium text-white/80">
@@ -107,7 +107,7 @@ export default function AiAgentsPage() {
             <ArrowDown className="h-5 w-5 text-white/20" />
 
             {/* OUTPUT LAYER */}
-            <div className="w-full">
+            <div className="w-full py-5 sm:py-6">
               <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-white/30 mb-3 text-center">
                 Output Layer
               </p>
@@ -115,7 +115,7 @@ export default function AiAgentsPage() {
                 {agentOutputs.map((output) => (
                   <span
                     key={output}
-                    className="px-4 py-2 bg-surface-2 rounded-lg border border-border-subtle text-[12px] text-white/60"
+                    className="px-4 py-2.5 bg-surface-2 rounded-lg border border-border-subtle text-[12px] text-white/60"
                   >
                     {output}
                   </span>
@@ -127,14 +127,14 @@ export default function AiAgentsPage() {
 
         {/* Right — Active Agents sidebar */}
         <div className={cardCls}>
-          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-4">
+          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">
             Active Agents
           </h3>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {agentProcessors.map((agent) => (
               <div
                 key={agent.name}
-                className="rounded-lg border border-border-subtle bg-white/[0.02] p-3"
+                className="rounded-lg border border-border-subtle bg-white/[0.02] p-4 sm:p-5"
               >
                 <div className="flex items-center gap-2 mb-1.5">
                   <BrainCircuit className="h-4 w-4 text-purple-400 shrink-0" />

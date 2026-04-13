@@ -14,7 +14,7 @@ const connectors = [
 ];
 
 const cardCls =
-  "bg-surface rounded-xl border border-border-subtle p-5 hover:border-border-emphasis transition-all duration-200";
+  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200";
 
 export default function SettingsPage() {
   const { addToast } = useDashboard();
@@ -49,13 +49,13 @@ export default function SettingsPage() {
 
       {/* ── Data Tab ── */}
       {activeSettingsTab === "Data" && (
-        <div className="space-y-5">
+        <div className="space-y-5 mt-6">
           {/* CSV Upload */}
           <div className={cardCls}>
-            <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-4">
+            <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">
               CSV Upload
             </h3>
-            <div className="flex flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-border-subtle py-10 px-6 hover:border-white/20 transition-colors">
+            <div className="flex flex-col items-center justify-center gap-4 sm:gap-5 rounded-lg border-2 border-dashed border-border-subtle p-8 sm:p-12 hover:border-white/20 transition-colors">
               <Upload className="h-8 w-8 text-white/20" />
               <p className="text-[13px] text-white/50 text-center">
                 Drop CSV files here or click to browse
@@ -65,7 +65,7 @@ export default function SettingsPage() {
 
           {/* Data Refresh Cadence */}
           <div className={cardCls}>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2 mb-5 sm:mb-6">
               <RefreshCw className="h-4 w-4 text-white/30" />
               <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80">
                 Data Refresh Cadence
@@ -86,18 +86,18 @@ export default function SettingsPage() {
           </div>
 
           {/* API Connectors */}
-          <div className={cardCls}>
-            <div className="flex items-center gap-2 mb-4">
+          <div className={`${cardCls} mb-6 sm:mb-10`}>
+            <div className="flex items-center gap-2 mb-5 sm:mb-6">
               <Plug className="h-4 w-4 text-white/30" />
               <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80">
                 API Connectors
               </h3>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-4 sm:space-y-5">
               {connectors.map((c) => (
                 <div
                   key={c.name}
-                  className="flex items-center justify-between rounded-lg border border-border-subtle bg-white/[0.02] p-3"
+                  className="flex items-center justify-between rounded-lg border border-border-subtle bg-white/[0.02] py-4 px-4"
                 >
                   <div className="flex items-center gap-2">
                     <span className="text-[13px] text-white/70">{c.name}</span>
@@ -122,14 +122,14 @@ export default function SettingsPage() {
 
       {/* ── Users Tab ── */}
       {activeSettingsTab === "Users" && (
-        <div className={cardCls}>
+        <div className={`${cardCls} mt-6 mb-6 sm:mb-10`}>
           <p className="text-[13px] text-white/40">User management coming soon</p>
         </div>
       )}
 
       {/* ── Tenant Tab ── */}
       {activeSettingsTab === "Tenant" && (
-        <div className={cardCls}>
+        <div className={`${cardCls} mt-6 mb-6 sm:mb-10`}>
           <p className="text-[13px] text-white/40">Tenant settings coming soon</p>
         </div>
       )}

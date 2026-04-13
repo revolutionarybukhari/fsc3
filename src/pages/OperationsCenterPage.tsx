@@ -7,7 +7,7 @@ import { incidents, playbooks } from "@/data/mockData";
 import type { RagStatus } from "@/components/StatusBadge";
 
 const cardCls =
-  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 hover:border-border-emphasis transition-all";
+  "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all";
 
 function statusToRag(status: string): RagStatus {
   if (status === "resolved") return "green";
@@ -50,7 +50,7 @@ export default function OperationsCenterPage() {
       />
 
       {/* ── Metric cards ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-6 sm:mb-8">
         <MetricCard
           title="Total Incidents"
           value={String(totalIncidents)}
@@ -79,7 +79,7 @@ export default function OperationsCenterPage() {
 
       {/* ── Active Incidents table ── */}
       <div className={cardCls}>
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-5 sm:mb-6">
           <Clock className="h-4 w-4 text-white/40" />
           <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80">
             Active Incidents
@@ -89,22 +89,22 @@ export default function OperationsCenterPage() {
           <table className="w-full min-w-[640px]">
             <thead>
               <tr className="border-b border-border-subtle">
-                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3 pr-4">
+                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3.5 pr-5">
                   Incident
                 </th>
-                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3 pr-4">
+                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3.5 pr-5">
                   Status
                 </th>
-                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3 pr-4">
+                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3.5 pr-5">
                   Priority
                 </th>
-                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3 pr-4">
+                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3.5 pr-5">
                   Owner
                 </th>
-                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3 pr-4">
+                <th className="text-left text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3.5 pr-5">
                   SLA Timer
                 </th>
-                <th className="text-right text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3">
+                <th className="text-right text-[11px] font-medium uppercase tracking-[0.06em] text-white/34 pb-3.5">
                   Actions
                 </th>
               </tr>
@@ -119,7 +119,7 @@ export default function OperationsCenterPage() {
                     key={incident.id}
                     className="border-b border-border-subtle last:border-b-0 hover:bg-white/[0.02] transition-colors"
                   >
-                    <td className="py-3.5 pr-4">
+                    <td className="py-3.5 pr-5">
                       <p className="text-[13px] font-semibold text-white/90">
                         {incident.name}
                       </p>
@@ -127,14 +127,14 @@ export default function OperationsCenterPage() {
                         Created {incident.created}
                       </p>
                     </td>
-                    <td className="py-3.5 pr-4">
+                    <td className="py-3.5 pr-5">
                       <StatusBadge
                         status={statusToRag(incident.status)}
                         label={statusLabel(incident.status)}
                         pulse={incident.status === "in-progress"}
                       />
                     </td>
-                    <td className="py-3.5 pr-4">
+                    <td className="py-3.5 pr-5">
                       <span
                         className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold capitalize"
                         style={{
@@ -145,12 +145,12 @@ export default function OperationsCenterPage() {
                         {incident.priority}
                       </span>
                     </td>
-                    <td className="py-3.5 pr-4">
+                    <td className="py-3.5 pr-5">
                       <span className="text-[12px] text-white/60">
                         {incident.owner}
                       </span>
                     </td>
-                    <td className="py-3.5 pr-4">
+                    <td className="py-3.5 pr-5">
                       <span
                         className="text-[12px] font-mono"
                         style={{
@@ -237,14 +237,14 @@ export default function OperationsCenterPage() {
       </div>
 
       {/* ── Response Playbooks ── */}
-      <div>
-        <div className="flex items-center gap-2 mb-4">
+      <div className="mb-6 sm:mb-10">
+        <div className="flex items-center gap-2 mb-5 sm:mb-6">
           <Shield className="h-4 w-4 text-white/40" />
           <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80">
             Response Playbooks
           </h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {playbooks.map((pb) => (
             <div key={pb.name} className={cardCls}>
               <p className="text-[14px] font-semibold text-white/90 mb-1.5">
