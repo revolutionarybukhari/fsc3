@@ -199,7 +199,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Shipped Tonnage */}
-        <div className={`${cardCls} cursor-pointer`}>
+        <div className={`${cardCls} cursor-pointer`} onClick={() => addToast("Shipped tonnage: 58K MT rice, 42K MT wheat, 26K MT vegetables in June", "green")}>
           <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Shipped Tonnage (6M)</h3>
           <ResponsiveContainer width="100%" height={260}>
             <AreaChart data={shippedTonnage} margin={{ top: 0, right: 12, bottom: 0, left: 8 }}>
