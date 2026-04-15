@@ -79,19 +79,19 @@ export const playbooks = [
 /* ── AI Agents ── */
 export const agentInputs = ["Weather Data", "Price Feeds", "Supplier DB", "News Events"];
 export const agentProcessors = [
-  { name: "Risk Aggregation", status: "active" as const, confidence: 94.2, description: "Aggregates risk signals from multiple sources" },
-  { name: "Supplier Ranking", status: "active" as const, confidence: 96.5, description: "Ranks alternative suppliers by reliability and cost" },
-  { name: "Report Generation", status: "idle" as const, confidence: 91.8, description: "Generates executive-ready reports and summaries" },
+  { name: "Supply Chain Risk Aggregation", status: "active" as const, confidence: 94.2, description: "Aggregates supply chain risk signals from multiple sources across ASEAN+ trade networks" },
+  { name: "Food Supplier Ranking", status: "active" as const, confidence: 96.5, description: "Ranks alternative suppliers by reliability and cost" },
   { name: "Forecast Synthesis", status: "active" as const, confidence: 89.4, description: "Synthesizes forecasts from multiple models" },
+  { name: "Report Generation", status: "idle" as const, confidence: 91.8, description: "Generates executive-ready reports and summaries" },
 ];
-export const agentOutputs = ["Risk Reports", "Supplier Scores", "Demand Forecasts", "Alert Triggers"];
+export const agentOutputs = ["Risk Reports", "Food Supplier Scores", "Demand Forecasts", "Alert Triggers"];
 
 /* ── Report templates ── */
 export const reportTemplates = [
   { name: "Weekly Food Security Outlook", description: "Executive summary of food security status, risks, and forecasts", frequency: "Weekly", lastGenerated: "2 days ago", formats: ["PDF", "PPT"] },
+  { name: "Supply Chain Risk Register Summary", description: "Historical supply chain disruptions and mitigation effectiveness", frequency: "Monthly", lastGenerated: "8 days ago", formats: ["PDF"] },
   { name: "Scenario Impact Analysis", description: "Detailed analysis of simulated scenarios and recommended actions", frequency: "On-Demand", lastGenerated: "5 days ago", formats: ["PDF"] },
-  { name: "Supplier Performance Report", description: "Quarterly assessment of supplier reliability and risk tiers", frequency: "Quarterly", lastGenerated: "12 days ago", formats: ["PDF", "Excel"] },
-  { name: "Risk Register Summary", description: "Historical disruptions and mitigation effectiveness", frequency: "Monthly", lastGenerated: "8 days ago", formats: ["PDF"] },
+  { name: "Food Supplier Performance Report", description: "Quarterly assessment of supplier reliability and risk tiers", frequency: "Quarterly", lastGenerated: "12 days ago", formats: ["PDF", "Excel"] },
   { name: "Model Performance Audit", description: "AI model accuracy, stability, and explainability metrics", frequency: "Monthly", lastGenerated: "15 days ago", formats: ["PDF", "Excel"] },
 ];
 

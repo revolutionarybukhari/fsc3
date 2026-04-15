@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrainCircuit, ChevronDown, ChevronUp } from "lucide-react";
+import { BrainCircuit, ChevronDown, ChevronUp, Zap } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import MetricCard from "@/components/MetricCard";
 import { useDashboard } from "@/DashboardContext";
@@ -37,10 +37,20 @@ export default function ModelRegistryPage() {
 
   return (
     <div className="space-y-6">
-      <SectionHeader
-        title="Model Registry"
-        description="Forecasting models, status, and prediction quality"
-      />
+      <div className="flex items-start justify-between mb-6 sm:mb-8">
+        <SectionHeader
+          title="Model Registry"
+          description="Forecasting models, status, and prediction quality"
+        />
+        <button
+          type="button"
+          onClick={() => addToast("Model training initiated — estimated 4h runtime", "info")}
+          className="shrink-0 flex items-center gap-2 rounded-lg bg-accent/10 border border-accent/20 px-4 py-2 text-[12px] font-medium text-accent hover:bg-accent/20 transition-colors cursor-pointer"
+        >
+          <Zap className="h-3.5 w-3.5" />
+          Model Training
+        </button>
+      </div>
 
       {/* ── Metric cards ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 mb-6 sm:mb-8">

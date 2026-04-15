@@ -12,10 +12,10 @@ interface TabNavProps {
 const tabs: { id: string; label: string; shortLabel: string; icon: LucideIcon }[] = [
   { id: "Dashboard", label: "Dashboard", shortLabel: "Dashboard", icon: LayoutDashboard },
   { id: "Overview", label: "Overview", shortLabel: "Overview", icon: BarChart3 },
-  { id: "Risk Intelligence", label: "Risk Intelligence", shortLabel: "Risk", icon: ShieldAlert },
+  { id: "Operations Center", label: "Operations Center", shortLabel: "Ops", icon: Radio },
+  { id: "Supply Chain Risk Intelligence", label: "Supply Chain Risk Intelligence", shortLabel: "Risk", icon: ShieldAlert },
   { id: "Supply Network", label: "Supply Network", shortLabel: "Supply", icon: Globe },
   { id: "Model Registry", label: "Model Registry", shortLabel: "Models", icon: Cpu },
-  { id: "Operations Center", label: "Operations Center", shortLabel: "Ops", icon: Radio },
   { id: "AI Agents", label: "AI Agents", shortLabel: "AI", icon: BrainCircuit },
   { id: "Reports", label: "Reports", shortLabel: "Reports", icon: FileText },
   { id: "Settings", label: "Settings", shortLabel: "Settings", icon: Settings },

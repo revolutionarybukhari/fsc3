@@ -19,10 +19,10 @@ import SettingsPage from "@/pages/SettingsPage";
 const pages: Record<string, React.ComponentType> = {
   "Dashboard": DashboardPage,
   "Overview": OverviewPage,
-  "Risk Intelligence": RiskIntelligencePage,
+  "Operations Center": OperationsCenterPage,
+  "Supply Chain Risk Intelligence": RiskIntelligencePage,
   "Supply Network": SupplyNetworkPage,
   "Model Registry": ModelRegistryPage,
-  "Operations Center": OperationsCenterPage,
   "AI Agents": AiAgentsPage,
   "Reports": ReportsPage,
   "Settings": SettingsPage,

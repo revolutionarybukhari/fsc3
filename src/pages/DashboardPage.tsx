@@ -96,12 +96,9 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* ── Map + Alerts row ── */}
-      <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-5 sm:gap-6 mb-6 sm:mb-8">
-        {/* Map */}
-        <LiveMap height="420px" onCountryClick={handleCountryClick} />
-
-        {/* Active Alerts panel */}
+      {/* ── Alerts + Map row — Supply chain alerts on LEFT (primary focus) ── */}
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_2fr] gap-5 sm:gap-6 mb-6 sm:mb-8">
+        {/* Active Alerts panel — LEFT side, key focus */}
         <div className={cardCls}>
           <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Active Alerts</h3>
           <div className="space-y-4 max-h-[380px] overflow-y-auto pr-2 custom-scrollbar">
@@ -150,136 +147,13 @@ export default function DashboardPage() {
             ))}
           </div>
         </div>
+
+        {/* Map — RIGHT side */}
+        <LiveMap height="420px" onCountryClick={handleCountryClick} />
       </div>
 
-      {/* ── Charts row ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-8">
-        {/* Production by Country */}
-        <div className={`${cardCls} cursor-pointer`}>
-          <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Production by Country</h3>
-          <ResponsiveContainer width="100%" height={260}>
-            <BarChart
-              data={productionByCountry}
-              layout="vertical"
-              margin={{ top: 0, right: 12, bottom: 0, left: 8 }}
-              onClick={(state) => {
-                if (state?.activeLabel) {
-                  handleCountryClick(String(state.activeLabel));
-                }
-              }}
-            >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke={gridStroke}
-                horizontal={false}
-              />
-              <XAxis
-                type="number"
-                tick={{ fontSize: 11, ...axisVal }}
-                axisLine={false}
-                tickLine={false}
-                tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`}
-              />
-              <YAxis
-                type="category"
-                dataKey="country"
-                tick={{ fontSize: 11, ...axisCat }}
-                axisLine={false}
-                tickLine={false}
-                width={80}
-              />
-              <Tooltip
-                contentStyle={ttStyle}
-                cursor={{ fill: "rgba(255,255,255,0.06)" }}
-                formatter={(v) => [`${Number(v).toLocaleString()} MT`, "Volume"]}
-              />
-              <Bar
-                dataKey="volume"
-                fill="#22c55e"
-                radius={[0, 4, 4, 0]}
-                barSize={18}
-                cursor="pointer"
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Shipped Tonnage */}
-        <div className={`${cardCls} cursor-pointer`}>
-          <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Shipped Tonnage (6M)</h3>
-          <ResponsiveContainer width="100%" height={260}>
-            <AreaChart
-              data={shippedTonnage}
-              margin={{ top: 0, right: 12, bottom: 0, left: 8 }}
-            >
-              <defs>
-                <linearGradient id="gRice" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="gWheat" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="gVeg" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#a855f7" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke={gridStroke}
-                vertical={false}
-              />
-              <XAxis
-                dataKey="month"
-                tick={{ fontSize: 11, ...axisCat }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                tick={{ fontSize: 11, ...axisVal }}
-                axisLine={false}
-                tickLine={false}
-                tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`}
-              />
-              <Tooltip
-                contentStyle={ttStyle}
-                formatter={(v) => [`${Number(v).toLocaleString()} MT`]}
-              />
-              <Legend
-                iconType="circle"
-                iconSize={8}
-                wrapperStyle={{ fontSize: 11, color: "rgba(255,255,255,0.56)" }}
-              />
-              <Area
-                type="monotone"
-                dataKey="rice"
-                stroke="#22c55e"
-                fill="url(#gRice)"
-                strokeWidth={2}
-              />
-              <Area
-                type="monotone"
-                dataKey="wheat"
-                stroke="#f59e0b"
-                fill="url(#gWheat)"
-                strokeWidth={2}
-              />
-              <Area
-                type="monotone"
-                dataKey="vegetables"
-                stroke="#a855f7"
-                fill="url(#gVeg)"
-                strokeWidth={2}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* ── System Status ── */}
-      <div className={`${cardCls} mb-6 sm:mb-10`}>
+      {/* ── System Status — primary focus area ── */}
+      <div className={`${cardCls} mb-6 sm:mb-8`}>
         <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>System Status</h3>
         <div className="space-y-3">
           {([
@@ -296,6 +170,54 @@ export default function DashboardPage() {
               <StatusBadge status={row.status} label={row.statusLabel} />
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* ── Charts row — secondary data below disruption focus ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-10">
+        {/* Production by Country */}
+        <div className={`${cardCls} cursor-pointer`}>
+          <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Production by Country</h3>
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart
+              data={productionByCountry}
+              layout="vertical"
+              margin={{ top: 0, right: 12, bottom: 0, left: 8 }}
+              onClick={(state) => {
+                if (state?.activeLabel) {
+                  handleCountryClick(String(state.activeLabel));
+                }
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} horizontal={false} />
+              <XAxis type="number" tick={{ fontSize: 11, ...axisVal }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
+              <YAxis type="category" dataKey="country" tick={{ fontSize: 11, ...axisCat }} axisLine={false} tickLine={false} width={80} />
+              <Tooltip contentStyle={ttStyle} cursor={{ fill: "rgba(255,255,255,0.06)" }} formatter={(v) => [`${Number(v).toLocaleString()} MT`, "Volume"]} />
+              <Bar dataKey="volume" fill="#22c55e" radius={[0, 4, 4, 0]} barSize={18} cursor="pointer" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Shipped Tonnage */}
+        <div className={`${cardCls} cursor-pointer`}>
+          <h3 className={`${sectionTitle} mb-5 sm:mb-6`}>Shipped Tonnage (6M)</h3>
+          <ResponsiveContainer width="100%" height={260}>
+            <AreaChart data={shippedTonnage} margin={{ top: 0, right: 12, bottom: 0, left: 8 }}>
+              <defs>
+                <linearGradient id="gRice" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#22c55e" stopOpacity={0.3} /><stop offset="95%" stopColor="#22c55e" stopOpacity={0} /></linearGradient>
+                <linearGradient id="gWheat" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} /><stop offset="95%" stopColor="#f59e0b" stopOpacity={0} /></linearGradient>
+                <linearGradient id="gVeg" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#a855f7" stopOpacity={0.3} /><stop offset="95%" stopColor="#a855f7" stopOpacity={0} /></linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
+              <XAxis dataKey="month" tick={{ fontSize: 11, ...axisCat }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, ...axisVal }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
+              <Tooltip contentStyle={ttStyle} formatter={(v) => [`${Number(v).toLocaleString()} MT`]} />
+              <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: "rgba(255,255,255,0.56)" }} />
+              <Area type="monotone" dataKey="rice" stroke="#22c55e" fill="url(#gRice)" strokeWidth={2} />
+              <Area type="monotone" dataKey="wheat" stroke="#f59e0b" fill="url(#gWheat)" strokeWidth={2} />
+              <Area type="monotone" dataKey="vegetables" stroke="#a855f7" fill="url(#gVeg)" strokeWidth={2} />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </>

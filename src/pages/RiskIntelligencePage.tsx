@@ -41,8 +41,8 @@ export default function RiskIntelligencePage() {
   return (
     <>
       <SectionHeader
-        title="Risk Intelligence"
-        description="Likelihood x Impact analysis and risk assessment"
+        title="Supply Chain Risk Intelligence"
+        description="Likelihood x Impact analysis and supply chain risk assessment"
       />
 
       {/* Metric cards */}
@@ -149,7 +149,7 @@ export default function RiskIntelligencePage() {
 
         {/* Right: Risk Summary */}
         <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200">
-          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">Risk Summary</h3>
+          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">Supply Chain Risk Summary</h3>
 
           {/* Big number */}
           <div className="text-center mb-6">

@@ -6,7 +6,7 @@ import {
   agentProcessors,
   agentOutputs,
 } from "@/data/mockData";
-import { BrainCircuit, ArrowDown, Zap, Activity, Clock, BarChart3 } from "lucide-react";
+import { BrainCircuit, ArrowDown, Activity, Clock, BarChart3 } from "lucide-react";
 
 const cardCls =
   "bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis transition-all duration-200";
@@ -16,20 +16,12 @@ export default function AiAgentsPage() {
 
   return (
     <div className="space-y-6">
-      {/* -- Header + Model Training button -- */}
-      <div className="flex items-start justify-between mb-6 sm:mb-8">
+      {/* -- Header -- */}
+      <div className="mb-6 sm:mb-8">
         <SectionHeader
           title="AI Agent Orchestration"
           description="LLM-powered multi-agent workflow with autonomous reasoning"
         />
-        <button
-          type="button"
-          onClick={() => addToast("Model training initiated", "info")}
-          className="shrink-0 flex items-center gap-2 rounded-lg bg-accent/10 border border-accent/20 px-4 py-2 text-[12px] font-medium text-accent hover:bg-accent/20 transition-colors"
-        >
-          <Zap className="h-3.5 w-3.5" />
-          Model Training
-        </button>
       </div>
 
       {/* -- Info Banner -- */}

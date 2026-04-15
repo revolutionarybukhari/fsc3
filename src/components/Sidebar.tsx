@@ -8,10 +8,10 @@ interface SidebarProps {
 const items = [
   { icon: LayoutDashboard, tab: "Dashboard" },
   { icon: BarChart3, tab: "Overview" },
-  { icon: ShieldAlert, tab: "Risk Intelligence" },
+  { icon: Radio, tab: "Operations Center" },
+  { icon: ShieldAlert, tab: "Supply Chain Risk Intelligence" },
   { icon: Globe, tab: "Supply Network" },
   { icon: Cpu, tab: "Model Registry" },
-  { icon: Radio, tab: "Operations Center" },
   { icon: BrainCircuit, tab: "AI Agents" },
   { icon: FileText, tab: "Reports" },
   { icon: Settings, tab: "Settings" },
