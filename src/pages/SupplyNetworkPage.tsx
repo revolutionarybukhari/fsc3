@@ -4,6 +4,11 @@ import StatusBadge from "@/components/StatusBadge";
 import LiveMap from "@/components/LiveMap";
 import { useDashboard } from "@/DashboardContext";
 import { countries, statusToRag } from "@/data/mapData";
+import { productionByCountry, shippedTonnage, ttStyle } from "@/data/mockData";
+import {
+  BarChart, Bar, AreaChart, Area, XAxis, YAxis, Tooltip,
+  ResponsiveContainer, CartesianGrid, Legend,
+} from "recharts";
 
 const sorted = [...countries].sort((a, b) => b.importVolume - a.importVolume);
 
@@ -89,6 +94,55 @@ export default function SupplyNetworkPage() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* ── Production & Shipped Tonnage charts ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-10">
+        {/* Production by Country */}
+        <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0 transition-all cursor-pointer">
+          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">Production by Country</h3>
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart
+              data={productionByCountry}
+              layout="vertical"
+              margin={{ top: 0, right: 12, bottom: 0, left: 8 }}
+              onClick={(state) => {
+                if (state?.activeLabel) {
+                  setCountryFilter(String(state.activeLabel));
+                  addToast(`Filtered to ${state.activeLabel}`, "info");
+                }
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" horizontal={false} />
+              <XAxis type="number" tick={{ fontSize: 11, fill: "rgba(255,255,255,0.34)" }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
+              <YAxis type="category" dataKey="country" tick={{ fontSize: 11, fill: "rgba(255,255,255,0.56)" }} axisLine={false} tickLine={false} width={80} />
+              <Tooltip contentStyle={ttStyle} cursor={{ fill: "rgba(255,255,255,0.06)" }} formatter={(v) => [`${Number(v).toLocaleString()} MT`, "Volume"]} />
+              <Bar dataKey="volume" fill="#22c55e" radius={[0, 4, 4, 0]} barSize={18} cursor="pointer" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Shipped Tonnage */}
+        <div className="bg-surface rounded-xl border border-border-subtle p-5 sm:p-6 lg:p-7 hover:border-border-emphasis hover:-translate-y-px hover:shadow-[0_4px_20px_rgba(0,0,0,0.25)] active:translate-y-0 transition-all cursor-pointer" onClick={() => addToast("Shipped tonnage: 58K MT rice, 42K MT wheat, 26K MT vegetables in June", "green")}>
+          <h3 className="text-[13px] sm:text-[14px] font-semibold text-white/80 mb-5 sm:mb-6">Shipped Tonnage (6M)</h3>
+          <ResponsiveContainer width="100%" height={260}>
+            <AreaChart data={shippedTonnage} margin={{ top: 0, right: 12, bottom: 0, left: 8 }}>
+              <defs>
+                <linearGradient id="gRiceSN" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#22c55e" stopOpacity={0.3} /><stop offset="95%" stopColor="#22c55e" stopOpacity={0} /></linearGradient>
+                <linearGradient id="gWheatSN" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} /><stop offset="95%" stopColor="#f59e0b" stopOpacity={0} /></linearGradient>
+                <linearGradient id="gVegSN" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#a855f7" stopOpacity={0.3} /><stop offset="95%" stopColor="#a855f7" stopOpacity={0} /></linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+              <XAxis dataKey="month" tick={{ fontSize: 11, fill: "rgba(255,255,255,0.56)" }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill: "rgba(255,255,255,0.34)" }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`} />
+              <Tooltip contentStyle={ttStyle} formatter={(v) => [`${Number(v).toLocaleString()} MT`]} />
+              <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: "rgba(255,255,255,0.56)" }} />
+              <Area type="monotone" dataKey="rice" stroke="#22c55e" fill="url(#gRiceSN)" strokeWidth={2} />
+              <Area type="monotone" dataKey="wheat" stroke="#f59e0b" fill="url(#gWheatSN)" strokeWidth={2} />
+              <Area type="monotone" dataKey="vegetables" stroke="#a855f7" fill="url(#gVegSN)" strokeWidth={2} />
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </>
